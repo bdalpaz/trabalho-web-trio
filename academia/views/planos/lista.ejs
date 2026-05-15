@@ -1,0 +1,55 @@
+<% const titulo = 'Planos'; const pagina = 'planos'; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">PLANOS</h1>
+    <p class="page-subtitle">Gerencie os planos oferecidos pela academia</p>
+  </div>
+  <a href="/planos/novo" class="btn btn-primary">+ Novo plano</a>
+</div>
+
+<div class="card">
+  <% if (planos.length === 0) { %>
+    <div class="empty-state"><div class="icon">◌</div><p>Nenhum plano cadastrado</p></div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Valor mensal</th>
+            <th>Duração</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% planos.forEach(p => { %>
+            <tr>
+              <td><strong><%= p.nome %></strong></td>
+              <td><%= p.descricao || '—' %></td>
+              <td>R$ <%= p.valor_mensal.toFixed(2).replace('.', ',') %></td>
+              <td><%= p.duracao_meses %> mês(es)</td>
+              <td>
+                <% if (p.ativo) { %><span class="badge badge-success">Ativo</span>
+                <% } else { %><span class="badge badge-danger">Inativo</span><% } %>
+              </td>
+              <td>
+                <div class="actions">
+                  <a href="/planos/<%= p.id %>/editar" class="btn btn-secondary btn-sm">Editar</a>
+                  <form method="POST" action="/planos/<%= p.id %>?_method=DELETE" onsubmit="return confirm('Remover este plano?')" style="display:inline;">
+                    <button class="btn btn-danger btn-sm" type="submit">Excluir</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

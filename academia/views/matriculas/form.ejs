@@ -1,0 +1,63 @@
+<% const titulo = 'Nova matrícula'; const pagina = 'matriculas'; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">NOVA MATRÍCULA</h1>
+    <p class="page-subtitle">Vincule um aluno a um plano</p>
+  </div>
+  <a href="/matriculas" class="btn btn-secondary">← Voltar</a>
+</div>
+
+<% if (erro) { %><div class="alert alert-danger">✕ <%= erro %></div><% } %>
+
+<div class="card">
+  <% if (alunos.length === 0) { %>
+    <div class="alert alert-info">⚠ Cadastre ao menos um aluno antes de criar uma matrícula.</div>
+    <a href="/alunos/novo" class="btn btn-primary">+ Cadastrar aluno</a>
+  <% } else if (planos.length === 0) { %>
+    <div class="alert alert-info">⚠ Cadastre ao menos um plano ativo antes de criar uma matrícula.</div>
+  <% } else { %>
+    <form method="POST" action="/matriculas">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Aluno *</label>
+          <select name="aluno_id" required>
+            <option value="">Selecione um aluno...</option>
+            <% alunos.forEach(a => { %>
+              <option value="<%= a.id %>" <%= dados.aluno_id == a.id ? 'selected' : '' %>>
+                <%= a.nome %> (CPF: <%= a.cpf %>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Plano *</label>
+          <select name="plano_id" required>
+            <option value="">Selecione um plano...</option>
+            <% planos.forEach(p => { %>
+              <option value="<%= p.id %>" <%= dados.plano_id == p.id ? 'selected' : '' %>>
+                <%= p.nome %> — R$ <%= p.valor_mensal.toFixed(2).replace('.',',') %> / <%= p.duracao_meses %> mês(es)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Data de início</label>
+          <input type="date" name="data_inicio" value="<%= dados.data_inicio || new Date().toISOString().substring(0,10) %>">
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top: 20px;">
+        ℹ <strong>Regra do sistema:</strong> um aluno não pode ter mais de uma matrícula ativa vigente ao mesmo tempo. Se ele já estiver matriculado, cancele a matrícula atual antes de criar uma nova.
+      </div>
+
+      <div class="form-actions">
+        <a href="/matriculas" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Criar matrícula</button>
+      </div>
+    </form>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

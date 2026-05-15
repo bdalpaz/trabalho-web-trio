@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof titulo !== 'undefined' ? titulo + ' | ' : '' %>Academia Pro</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        ACADEMIA PRO
+        <small>Sistema de Controle</small>
+      </div>
+
+      <a href="/dashboard" class="nav-item <%= typeof pagina !== 'undefined' && pagina === 'dashboard' ? 'active' : '' %>">
+        <span class="icon">▦</span> Dashboard
+      </a>
+      <a href="/alunos" class="nav-item <%= typeof pagina !== 'undefined' && pagina === 'alunos' ? 'active' : '' %>">
+        <span class="icon">◉</span> Alunos
+      </a>
+      <a href="/matriculas" class="nav-item <%= typeof pagina !== 'undefined' && pagina === 'matriculas' ? 'active' : '' %>">
+        <span class="icon">✎</span> Matrículas
+      </a>
+      <a href="/frequencia" class="nav-item <%= typeof pagina !== 'undefined' && pagina === 'frequencia' ? 'active' : '' %>">
+        <span class="icon">⚡</span> Catraca
+      </a>
+
+      <% if (usuarioLogado && usuarioLogado.perfil === 'ADMIN') { %>
+        <a href="/planos" class="nav-item <%= typeof pagina !== 'undefined' && pagina === 'planos' ? 'active' : '' %>">
+          <span class="icon">★</span> Planos
+        </a>
+      <% } %>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <strong><%= usuarioLogado.nome %></strong>
+          <span class="badge <%= usuarioLogado.perfil === 'ADMIN' ? 'badge-admin' : 'badge-recepcao' %>"><%= usuarioLogado.perfil %></span>
+        </div>
+        <a href="/logout" class="nav-item">
+          <span class="icon">⎋</span> Sair
+        </a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <% if (typeof mensagem !== 'undefined' && mensagem) { %>
+        <div class="alert alert-success">✓ <%= mensagem %></div>
+      <% } %>
+      <% if (typeof erro !== 'undefined' && erro) { %>
+        <div class="alert alert-danger">✕ <%= erro %></div>
+      <% } %>

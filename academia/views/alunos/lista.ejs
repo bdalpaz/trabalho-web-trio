@@ -1,0 +1,61 @@
+<% const titulo = 'Alunos'; const pagina = 'alunos'; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">ALUNOS</h1>
+    <p class="page-subtitle"><%= alunos.length %> aluno(s) cadastrado(s)</p>
+  </div>
+  <a href="/alunos/novo" class="btn btn-primary">+ Novo aluno</a>
+</div>
+
+<form method="GET" action="/alunos" class="search-bar">
+  <input type="text" name="busca" placeholder="🔍 Buscar por nome..." value="<%= filtro %>">
+  <button type="submit" class="btn btn-secondary">Buscar</button>
+  <% if (filtro) { %><a href="/alunos" class="btn btn-secondary">Limpar</a><% } %>
+</form>
+
+<div class="card">
+  <% if (alunos.length === 0) { %>
+    <div class="empty-state">
+      <div class="icon">◌</div>
+      <p>Nenhum aluno encontrado</p>
+    </div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th style="width: 1%;">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% alunos.forEach(a => { %>
+            <tr>
+              <td><strong><%= a.nome %></strong></td>
+              <td><%= a.cpf %></td>
+              <td><%= a.email || '—' %></td>
+              <td><%= a.telefone || '—' %></td>
+              <td>
+                <div class="actions">
+                  <a href="/alunos/<%= a.id %>/editar" class="btn btn-secondary btn-sm">Editar</a>
+                  <% if (usuarioLogado.perfil === 'ADMIN') { %>
+                    <form method="POST" action="/alunos/<%= a.id %>?_method=DELETE" onsubmit="return confirm('Remover <%= a.nome %>?')" style="display:inline;">
+                      <button class="btn btn-danger btn-sm" type="submit">Excluir</button>
+                    </form>
+                  <% } %>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

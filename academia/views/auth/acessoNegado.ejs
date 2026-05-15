@@ -1,0 +1,21 @@
+<% const titulo = 'Acesso Negado'; const pagina = ''; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">ACESSO NEGADO</h1>
+    <p class="page-subtitle">Você não tem permissão para acessar esta página</p>
+  </div>
+</div>
+
+<div class="card">
+  <p style="margin-bottom: 16px;">Sua sessão atual usa o perfil <span class="badge badge-<%= usuarioLogado.perfil === 'ADMIN' ? 'admin' : 'recepcao' %>"><%= usuarioLogado.perfil %></span>, mas este recurso exige um dos perfis:</p>
+  <p style="margin-bottom: 18px;">
+    <% perfisPermitidos.forEach(p => { %>
+      <span class="badge badge-admin"><%= p %></span>
+    <% }) %>
+  </p>
+  <a href="/dashboard" class="btn btn-primary">← Voltar ao Dashboard</a>
+</div>
+
+<%- include('../partials/footer') %>

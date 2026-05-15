@@ -1,0 +1,66 @@
+<% const titulo = 'Matrículas'; const pagina = 'matriculas'; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">MATRÍCULAS</h1>
+    <p class="page-subtitle"><%= matriculas.length %> matrícula(s) no sistema</p>
+  </div>
+  <a href="/matriculas/nova" class="btn btn-primary">+ Nova matrícula</a>
+</div>
+
+<div class="card">
+  <% if (matriculas.length === 0) { %>
+    <div class="empty-state"><div class="icon">◌</div><p>Nenhuma matrícula registrada</p></div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Aluno</th>
+            <th>CPF</th>
+            <th>Plano</th>
+            <th>Valor</th>
+            <th>Início</th>
+            <th>Validade</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% matriculas.forEach(m => { %>
+            <tr>
+              <td><strong><%= m.aluno_nome %></strong></td>
+              <td><%= m.aluno_cpf %></td>
+              <td><%= m.plano_nome %></td>
+              <td>R$ <%= m.valor_mensal.toFixed(2).replace('.',',') %></td>
+              <td><%= new Date(m.data_inicio).toLocaleDateString('pt-BR') %></td>
+              <td><%= new Date(m.data_fim).toLocaleDateString('pt-BR') %></td>
+              <td>
+                <% if (m.status === 'ATIVA') { %><span class="badge badge-success">Ativa</span>
+                <% } else if (m.status === 'CANCELADA') { %><span class="badge badge-danger">Cancelada</span>
+                <% } else { %><span class="badge badge-warning">Encerrada</span><% } %>
+              </td>
+              <td>
+                <div class="actions">
+                  <% if (m.status === 'ATIVA') { %>
+                    <form method="POST" action="/matriculas/<%= m.id %>/cancelar" onsubmit="return confirm('Cancelar matrícula de <%= m.aluno_nome %>?')" style="display:inline;">
+                      <button class="btn btn-secondary btn-sm">Cancelar</button>
+                    </form>
+                  <% } %>
+                  <% if (usuarioLogado.perfil === 'ADMIN') { %>
+                    <form method="POST" action="/matriculas/<%= m.id %>?_method=DELETE" onsubmit="return confirm('Excluir esta matrícula?')" style="display:inline;">
+                      <button class="btn btn-danger btn-sm">Excluir</button>
+                    </form>
+                  <% } %>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

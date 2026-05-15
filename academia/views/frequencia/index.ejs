@@ -1,0 +1,69 @@
+<% const titulo = 'Catraca'; const pagina = 'frequencia'; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">CATRACA</h1>
+    <p class="page-subtitle">Controle de entrada · <%= totalHoje %> aluno(s) hoje</p>
+  </div>
+</div>
+
+<div class="catraca-page">
+  <div class="catraca-form">
+    <h2 style="font-family: var(--font-display); letter-spacing: 1.5px; margin-bottom: 20px; font-size: 22px;">LIBERAR ACESSO</h2>
+
+    <% if (mensagem) { %>
+      <div class="alert alert-success">
+        ✓ <%= mensagem %>
+        <% if (ultimoAluno) { %>
+          <span style="margin-left:auto; font-size: 12px; opacity: 0.7;"><%= new Date().toLocaleTimeString('pt-BR') %></span>
+        <% } %>
+      </div>
+    <% } %>
+    <% if (erro) { %>
+      <div class="alert alert-danger">🚫 <%= erro %></div>
+    <% } %>
+
+    <form method="POST" action="/frequencia">
+      <label style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); display:block; margin-bottom: 8px;">CPF do aluno</label>
+      <input type="text" name="cpf" class="big-input" placeholder="000.000.000-00" required autofocus maxlength="14">
+      <button type="submit" class="btn btn-primary">⚡ LIBERAR ENTRADA</button>
+    </form>
+
+    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-dim);">
+      <strong style="color: var(--text);">Regra:</strong> só será liberado aluno com matrícula ativa e dentro da validade.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Últimas entradas</h2>
+      <span class="badge badge-info"><%= recentes.length %></span>
+    </div>
+
+    <% if (recentes.length === 0) { %>
+      <div class="empty-state"><div class="icon">◌</div><p>Nenhuma entrada registrada</p></div>
+    <% } else { %>
+      <div class="table-wrap" style="max-height: 500px; overflow-y: auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Aluno</th>
+              <th>Entrada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentes.forEach(r => { %>
+              <tr>
+                <td><strong><%= r.aluno_nome %></strong><br><small style="color: var(--text-dim);"><%= r.aluno_cpf %></small></td>
+                <td><%= new Date(r.data_entrada).toLocaleString('pt-BR') %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

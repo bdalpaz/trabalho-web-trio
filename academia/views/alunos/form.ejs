@@ -1,0 +1,47 @@
+<% const titulo = acao === 'criar' ? 'Novo aluno' : 'Editar aluno'; const pagina = 'alunos'; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title"><%= acao === 'criar' ? 'NOVO ALUNO' : 'EDITAR ALUNO' %></h1>
+    <p class="page-subtitle">Preencha os dados do aluno</p>
+  </div>
+  <a href="/alunos" class="btn btn-secondary">← Voltar</a>
+</div>
+
+<% if (erro) { %>
+  <div class="alert alert-danger">✕ <%= erro %></div>
+<% } %>
+
+<div class="card">
+  <form method="POST" action="<%= acao === 'criar' ? '/alunos' : '/alunos/' + aluno.id + '?_method=PUT' %>">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Nome completo *</label>
+        <input type="text" name="nome" required value="<%= aluno.nome || '' %>">
+      </div>
+      <div class="form-group">
+        <label>CPF *</label>
+        <input type="text" name="cpf" required maxlength="14" value="<%= aluno.cpf || '' %>" placeholder="000.000.000-00">
+      </div>
+      <div class="form-group">
+        <label>Data de nascimento</label>
+        <input type="date" name="data_nascimento" value="<%= aluno.data_nascimento || '' %>">
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" name="email" value="<%= aluno.email || '' %>">
+      </div>
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="text" name="telefone" value="<%= aluno.telefone || '' %>" placeholder="(00) 00000-0000">
+      </div>
+    </div>
+    <div class="form-actions">
+      <a href="/alunos" class="btn btn-secondary">Cancelar</a>
+      <button type="submit" class="btn btn-primary"><%= acao === 'criar' ? 'Cadastrar' : 'Salvar alterações' %></button>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

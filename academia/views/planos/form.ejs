@@ -1,0 +1,48 @@
+<% const titulo = acao === 'criar' ? 'Novo plano' : 'Editar plano'; const pagina = 'planos'; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title"><%= acao === 'criar' ? 'NOVO PLANO' : 'EDITAR PLANO' %></h1>
+    <p class="page-subtitle">Defina os detalhes do plano</p>
+  </div>
+  <a href="/planos" class="btn btn-secondary">← Voltar</a>
+</div>
+
+<% if (erro) { %><div class="alert alert-danger">✕ <%= erro %></div><% } %>
+
+<div class="card">
+  <form method="POST" action="<%= acao === 'criar' ? '/planos' : '/planos/' + plano.id + '?_method=PUT' %>">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nome *</label>
+        <input type="text" name="nome" required value="<%= plano.nome || '' %>">
+      </div>
+      <div class="form-group">
+        <label>Valor mensal (R$) *</label>
+        <input type="number" name="valor_mensal" required step="0.01" min="0.01" value="<%= plano.valor_mensal || '' %>">
+      </div>
+      <div class="form-group">
+        <label>Duração (meses) *</label>
+        <input type="number" name="duracao_meses" required min="1" value="<%= plano.duracao_meses || 1 %>">
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <div class="checkbox-row">
+          <input type="checkbox" name="ativo" id="ativo" <%= (plano.ativo === undefined || plano.ativo) ? 'checked' : '' %>>
+          <label for="ativo" style="text-transform: none; font-size: 14px; color: var(--text);">Plano ativo</label>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label>Descrição</label>
+        <textarea name="descricao" rows="3"><%= plano.descricao || '' %></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <a href="/planos" class="btn btn-secondary">Cancelar</a>
+      <button type="submit" class="btn btn-primary"><%= acao === 'criar' ? 'Cadastrar plano' : 'Salvar alterações' %></button>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

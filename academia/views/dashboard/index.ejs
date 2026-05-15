@@ -1,0 +1,77 @@
+<% const titulo = 'Dashboard'; const pagina = 'dashboard'; %>
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title">DASHBOARD</h1>
+    <p class="page-subtitle">Visão geral da academia · <%= new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long' }) %></p>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="label">Alunos cadastrados</div>
+    <div class="value"><%= stats.totalAlunos %></div>
+    <div class="icon-big">◉</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Matrículas ativas</div>
+    <div class="value"><%= stats.matriculasAtivas %></div>
+    <div class="icon-big">✎</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Entradas hoje</div>
+    <div class="value"><%= stats.frequenciaHoje %></div>
+    <div class="icon-big">⚡</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Planos cadastrados</div>
+    <div class="value"><%= stats.totalPlanos %></div>
+    <div class="icon-big">★</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">Últimas matrículas</h2>
+    <a href="/matriculas" class="btn btn-secondary btn-sm">Ver todas</a>
+  </div>
+
+  <% if (ultimasMatriculas.length === 0) { %>
+    <div class="empty-state">
+      <div class="icon">◌</div>
+      <p>Nenhuma matrícula registrada ainda</p>
+    </div>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Aluno</th>
+            <th>Plano</th>
+            <th>Início</th>
+            <th>Validade</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% ultimasMatriculas.forEach(m => { %>
+            <tr>
+              <td><%= m.aluno_nome %></td>
+              <td><%= m.plano_nome %></td>
+              <td><%= new Date(m.data_inicio).toLocaleDateString('pt-BR') %></td>
+              <td><%= new Date(m.data_fim).toLocaleDateString('pt-BR') %></td>
+              <td>
+                <% if (m.status === 'ATIVA') { %><span class="badge badge-success">Ativa</span>
+                <% } else if (m.status === 'CANCELADA') { %><span class="badge badge-danger">Cancelada</span>
+                <% } else { %><span class="badge badge-warning">Encerrada</span><% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
