@@ -153,9 +153,9 @@ async function inicializar() {
     const hashAdmin = bcrypt.hashSync('admin123', 10);
     const hashRec = bcrypt.hashSync('recepcao123', 10);
     db.prepare(`INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?,?,?,?)`)
-      .run('Administrador', 'admin@academia.com', hashAdmin, 'ADMIN');
+      .run('Diva!', 'admin@academia.com', hashAdmin, 'ADMIN');
     db.prepare(`INSERT INTO usuarios (nome, email, senha, perfil) VALUES (?,?,?,?)`)
-      .run('Recepcionista', 'recepcao@academia.com', hashRec, 'RECEPCAO');
+      .run('Diva!', 'recepcao@academia.com', hashRec, 'RECEPCAO');
   }
 
   const totalPlanos = db.prepare('SELECT COUNT(*) AS qtd FROM planos').get().qtd;
