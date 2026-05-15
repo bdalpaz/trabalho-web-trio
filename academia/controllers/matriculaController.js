@@ -1,4 +1,3 @@
-// controllers/matriculaController.js
 const matriculaService = require('../services/matriculaService');
 const alunoService = require('../services/alunoService');
 const planoService = require('../services/planoService');

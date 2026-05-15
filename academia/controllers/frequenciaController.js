@@ -1,4 +1,3 @@
-// controllers/frequenciaController.js
 const frequenciaService = require('../services/frequenciaService');
 
 class FrequenciaController {

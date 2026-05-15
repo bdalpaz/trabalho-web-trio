@@ -1,4 +1,3 @@
-// repositories/planoRepository.js
 const db = require('../config/database');
 
 class PlanoRepository {

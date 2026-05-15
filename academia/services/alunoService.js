@@ -1,5 +1,3 @@
-// services/alunoService.js
-// Regras de negócio para alunos: validações de CPF, e-mail, duplicidade etc.
 const alunoRepository = require('../repositories/alunoRepository');
 
 class AlunoService {
@@ -30,7 +28,6 @@ class AlunoService {
 
   criar(dados) {
     dados = this._validar(dados);
-    // Regra: não permitir CPF duplicado
     const existente = alunoRepository.buscarPorCpf(dados.cpf);
     if (existente) {
       throw new Error('Já existe um aluno cadastrado com este CPF.');
@@ -39,7 +36,7 @@ class AlunoService {
   }
 
   atualizar(id, dados) {
-    this.buscar(id); // garante que existe
+    this.buscar(id);
     dados = this._validar(dados);
     const existente = alunoRepository.buscarPorCpf(dados.cpf);
     if (existente && existente.id !== Number(id)) {

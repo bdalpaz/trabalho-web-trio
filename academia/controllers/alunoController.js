@@ -1,4 +1,3 @@
-// controllers/alunoController.js
 const alunoService = require('../services/alunoService');
 
 class AlunoController {

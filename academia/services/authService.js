@@ -1,5 +1,3 @@
-// services/authService.js
-// Regras de negócio relacionadas a autenticação.
 const bcrypt = require('bcryptjs');
 const usuarioRepository = require('../repositories/usuarioRepository');
 
@@ -16,7 +14,6 @@ class AuthService {
     if (!ok) {
       throw new Error('E-mail ou senha incorretos.');
     }
-    // Retorna apenas dados seguros para sessão (sem a senha)
     return {
       id: usuario.id,
       nome: usuario.nome,

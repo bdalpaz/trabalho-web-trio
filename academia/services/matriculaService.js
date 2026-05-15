@@ -1,6 +1,3 @@
-// services/matriculaService.js
-// Regra de negócio principal: NÃO permitir que um aluno tenha mais de uma
-// matrícula ATIVA (vigente) ao mesmo tempo.
 const matriculaRepository = require('../repositories/matriculaRepository');
 const alunoRepository = require('../repositories/alunoRepository');
 const planoRepository = require('../repositories/planoRepository');
@@ -27,7 +24,6 @@ class MatriculaService {
     if (!plano) throw new Error('Plano não encontrado.');
     if (!plano.ativo) throw new Error('Este plano está inativo e não aceita novas matrículas.');
 
-    // >>> REGRA DE NEGÓCIO PRINCIPAL <
     const matriculaAtiva = matriculaRepository.buscarAtivaPorAluno(alunoId);
     if (matriculaAtiva) {
       throw new Error(
@@ -36,7 +32,6 @@ class MatriculaService {
       );
     }
 
-    // Calcula data_fim baseado na duração do plano
     const inicio = dados.data_inicio ? new Date(dados.data_inicio) : new Date();
     const fim = new Date(inicio);
     fim.setMonth(fim.getMonth() + plano.duracao_meses);

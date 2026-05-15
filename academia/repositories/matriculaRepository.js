@@ -1,4 +1,3 @@
-// repositories/matriculaRepository.js
 const db = require('../config/database');
 
 class MatriculaRepository {

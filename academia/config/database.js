@@ -1,7 +1,3 @@
-// config/database.js
-// Wrapper sobre sql.js que expõe a mesma API do better-sqlite3
-// (db.prepare(sql).run/get/all e db.exec) e persiste em arquivo a cada escrita.
-// Usamos sql.js porque ele é puro JavaScript (não precisa compilar código nativo).
 const initSqlJs = require('sql.js');
 const fs = require('fs');
 const path = require('path');
@@ -28,13 +24,11 @@ function persistir() {
   }, 100);
 }
 
-// Helper: sql.js não aceita 'undefined' no bind, só 'null'
 function sanitize(params) {
   const flat = params.length === 1 && Array.isArray(params[0]) ? params[0] : params;
   return flat.map(v => v === undefined ? null : v);
 }
 
-// API estilo better-sqlite3
 const db = {
   prepare(sql) {
     return {
@@ -147,7 +141,6 @@ async function inicializar() {
     );
   `);
 
-  // Seed inicial (apenas se vazio)
   const totalUsuarios = db.prepare('SELECT COUNT(*) AS qtd FROM usuarios').get().qtd;
   if (totalUsuarios === 0) {
     const hashAdmin = bcrypt.hashSync('admin123', 10);
@@ -166,7 +159,6 @@ async function inicializar() {
     stmt.run('Anual', 'Acesso livre por 12 meses', 69.90, 12);
   }
 
-  // Salva imediatamente após o seed
   const data = rawDb.export();
   fs.writeFileSync(dbPath, Buffer.from(data));
 }

@@ -1,4 +1,3 @@
-// repositories/alunoRepository.js
 const db = require('../config/database');
 
 class AlunoRepository {

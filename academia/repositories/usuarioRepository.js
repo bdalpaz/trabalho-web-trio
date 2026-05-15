@@ -1,5 +1,3 @@
-// repositories/usuarioRepository.js
-// Camada de acesso a dados. Só conversa com o banco. Não tem regra de negócio.
 const db = require('../config/database');
 
 class UsuarioRepository {
@@ -16,4 +14,4 @@ class UsuarioRepository {
   }
 }
 
-module.exports = new UsuarioRepository();   
+module.exports = new UsuarioRepository();

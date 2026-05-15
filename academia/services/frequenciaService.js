@@ -1,5 +1,3 @@
-// services/frequenciaService.js
-// Regra: só registra entrada se o aluno tiver matrícula ATIVA e dentro da validade.
 const frequenciaRepository = require('../repositories/frequenciaRepository');
 const matriculaRepository = require('../repositories/matriculaRepository');
 const alunoRepository = require('../repositories/alunoRepository');

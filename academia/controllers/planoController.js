@@ -1,4 +1,3 @@
-// controllers/planoController.js
 const planoService = require('../services/planoService');
 
 class PlanoController {

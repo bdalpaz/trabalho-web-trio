@@ -1,16 +1,11 @@
-// middlewares/authMiddleware.js
-// Middlewares para controle de sessão e permissionamento por perfil.
-
 function requerLogin(req, res, next) {
   if (!req.session || !req.session.usuario) {
     return res.redirect('/login');
   }
-  // Disponibiliza usuário em todas as views via res.locals
   res.locals.usuarioLogado = req.session.usuario;
   next();
 }
 
-// Permite somente perfis específicos. Uso: requerPerfil('ADMIN') ou requerPerfil('ADMIN','RECEPCAO')
 function requerPerfil(...perfisPermitidos) {
   return (req, res, next) => {
     if (!req.session || !req.session.usuario) {
@@ -27,7 +22,6 @@ function requerPerfil(...perfisPermitidos) {
   };
 }
 
-// Disponibiliza dados globais nas views (usuário logado, mensagens flash)
 function injetarLocals(req, res, next) {
   res.locals.usuarioLogado = req.session?.usuario || null;
   res.locals.mensagem = req.session?.mensagem || null;

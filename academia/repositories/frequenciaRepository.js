@@ -1,4 +1,3 @@
-// repositories/frequenciaRepository.js
 const db = require('../config/database');
 
 class FrequenciaRepository {
